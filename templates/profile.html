@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h3 class="mb-0">{{ user.username }}</h3>
+        <form action="/users/{{ user.username }}/delete" method="POST">
+            <button class="text-danger p-0 m-0 mb-5">Delete User</button>
+        </form>
+        <ul>
+            <li>First Name: {{ user.first_name }}</li>
+            <li>Last Name: {{ user.last_name }}</li>
+            <li>Email: {{ user.email }}</li>
+            <li>Username: {{ user.username }}</li>
+        </ul>
+        <h3>Feedback</h3>
+        {% if user.feedback %}
+            {% for post in user.feedback %}
+                <div class="card m-3" style="width: 18rem;">
+                    <form>
+                        <div class="card-body">
+                        <h5 class="card-title">{{ post.title }}</h5>
+                        <p class="card-text">{{ post.content }}</p>
+                        <button formaction="/feedback/{{ post.id }}/update" formmethod="GET" class="text-info"><i class="fas fa-edit"></i></button>
+                        <button formaction="/feedback/{{ post.id }}/delete" formmethod="POST" class="text-danger"><i class="far fa-trash-alt"></i></button>
+                        </div>
+                    </form>
+                </div>   
+            {% endfor %}            
+        {% else %}
+            <p>No feedback submitted</p>
+        {% endif %}
+        <form action="/users/{{ user.username }}/feedback/add">
+            <button class="btn btn-info ml-3">Add Feedback</button>
+        </form>
+    </div>
+
+{% endblock %}
